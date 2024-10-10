@@ -1,0 +1,96 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Member {
+  id                  Int                  @id @default(autoincrement())
+  membershipNo        String               @unique
+  name                String
+  dob                 DateTime
+  salutation          String
+  sex                 String
+  dateJoined          DateTime
+  collectionCentre    String
+  kraPin              String?
+  address             String?
+  telephone           String?
+  email               String?
+  bank                String?
+  bankAc              String?
+  division            String?
+  noOfCows            Int                  @default(0)
+  cowsInMilk          Int                  @default(0)
+  nationalIdNo        String?
+  nhifNo              String?
+  nhifAmt             Float                @default(0)
+  village             String?
+  location            String?
+  subLocation         String?
+  dateOfLeaving       DateTime?
+  creditLimit         Float                @default(0)
+  currentCreditUsed   Float                @default(0)
+  membershipStatus    String               @default("Active")
+  statusDate          DateTime?
+  proposers           String?
+  comments            String?
+  nominee             Nominee?
+  payments            Payment[]
+  entranceFee         EntranceFee?
+  monthlyContribution MonthlyContribution?
+  newPlantShares      NewPlantShares?
+}
+
+model Nominee {
+  id           Int     @id @default(autoincrement())
+  name         String
+  idNo         String?
+  relationship String?
+  address      String?
+  telNo        String?
+  member       Member  @relation(fields: [memberId], references: [id])
+  memberId     Int     @unique
+}
+
+model Payment {
+  id        Int    @id @default(autoincrement())
+  receiptNo String
+  amount    Float
+  member    Member @relation(fields: [memberId], references: [id])
+  memberId  Int
+}
+
+model EntranceFee {
+  id               Int    @id @default(autoincrement())
+  monthlyDeduction Float  @default(0)
+  alreadyPaid      Float  @default(0)
+  expected         Float  @default(0)
+  member           Member @relation(fields: [memberId], references: [id])
+  memberId         Int    @unique
+}
+
+model MonthlyContribution {
+  id          Int    @id @default(autoincrement())
+  normal      Float  @default(0)
+  override    Float  @default(0)
+  overrideBal Float  @default(0)
+  member      Member @relation(fields: [memberId], references: [id])
+  memberId    Int    @unique
+}
+
+model NewPlantShares {
+  id               Int     @id @default(autoincrement())
+  monthlyDeduction Float   @default(0)
+  alreadyPaid      Float   @default(0)
+  expected         Float   @default(0)
+  certificateNo    String?
+  member           Member  @relation(fields: [memberId], references: [id])
+  memberId         Int     @unique
+}
