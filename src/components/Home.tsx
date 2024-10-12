@@ -236,23 +236,38 @@ export default function Home() {
       </div>
       <div className="mt-4 flex space-x-2 overflow-x-auto pb-4">
         <Link
-          href={`/edit/${selectedId}`}
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+          href={selectedId ? `/edit/${selectedId}` : '#'}
+          className={`px-4 py-2 rounded text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 ${
+            selectedId === null
+              ? 'bg-blue-300 cursor-not-allowed pointer-events-none'
+              : 'bg-blue-500 hover:bg-blue-600'
+          }`}
         >
           Amend
         </Link>
-        <button className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
-          Insert
-        </button>
         <Link
-          href={`/${selectedId}`}
-          className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-50"
+          href="/add"
+          className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
+        >
+          Insert
+        </Link>
+        <Link
+          href={selectedId ? `/${selectedId}` : '#'}
+          className={`px-4 py-2 rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-50 ${
+            selectedId === null
+              ? 'bg-yellow-300 cursor-not-allowed pointer-events-none'
+              : 'bg-yellow-500 hover:bg-yellow-600'
+          }`}
         >
           View
         </Link>
         <button
           disabled={selectedId === null}
-          className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+          className={`px-4 py-2 rounded text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 ${
+            selectedId === null
+              ? 'bg-red-300 cursor-not-allowed'
+              : 'bg-red-500 hover:bg-red-600'
+          }`}
         >
           Delete
         </button>

@@ -81,11 +81,6 @@ export default function CreateMember() {
   //     }));
   //   }, [formData.amount1, formData.amount2, formData.amount3, formData.sharesPaid]);
 
-  const handleSave = () => {
-    console.log('Form saved', formData);
-    // Add logic to save form data
-  };
-
   const handleExit = () => {
     if (
       window.confirm(
@@ -171,6 +166,7 @@ export default function CreateMember() {
                 value={formData.salutation}
                 onChange={handleInputChange}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                required
               >
                 <option value="Mr">Mr</option>
                 <option value="Mrs">Mrs</option>
@@ -379,6 +375,7 @@ export default function CreateMember() {
                 onChange={handleInputChange}
                 min="0"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                required
               />
             </div>
             <div>
@@ -395,6 +392,7 @@ export default function CreateMember() {
                 value={formData.cowsInMilk}
                 onChange={handleInputChange}
                 min="0"
+                required
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
             </div>
@@ -414,6 +412,7 @@ export default function CreateMember() {
                 name="nationalIdNo"
                 value={formData.nationalIdNo}
                 onChange={handleInputChange}
+                required
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
             </div>
@@ -1072,8 +1071,7 @@ export default function CreateMember() {
 
           <div className="flex justify-between mt-6">
             <button
-              type="button"
-              onClick={handleSave}
+              type="submit"
               className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
             >
               Save
