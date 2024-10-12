@@ -1,10 +1,11 @@
-import CreateMember from '@/components/CreateMember';
-import Home from '@/components/Home';
+import Home from '@/components/Home/Home';
+import prisma from '@/lib/db';
 
-export default function HomePage() {
+export default async function HomePage() {
+  const members = await prisma.member.findMany();
   return (
     <main className=" font-[family-name:var(--font-geist-sans)]">
-      <Home />
+      <Home initialMembers={members} />
     </main>
   );
 }
