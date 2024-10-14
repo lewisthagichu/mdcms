@@ -119,7 +119,6 @@ export default function ViewMemberForm() {
       router.push('/');
     }
   };
-  console.log(formData.payments);
 
   return loading ? (
     <Spinner loading />
