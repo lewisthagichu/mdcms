@@ -11,7 +11,7 @@ datasource db {
 }
 
 model Member {
-  id                  Int                  @id @default(autoincrement())
+  id                  String               @id @default(cuid())
   membershipNo        String               @unique
   name                String
   dob                 DateTime
@@ -41,6 +41,7 @@ model Member {
   statusDate          DateTime?
   proposers           String?
   comments            String?
+  sharesPaid          Int?
   nominee             Nominee?
   payments            Payment[]
   entranceFee         EntranceFee?
@@ -49,48 +50,48 @@ model Member {
 }
 
 model Nominee {
-  id           Int     @id @default(autoincrement())
-  name         String
-  idNo         String?
-  relationship String?
-  address      String?
-  telNo        String?
-  member       Member  @relation(fields: [memberId], references: [id])
-  memberId     Int     @unique
+  id                  Int     @id @default(autoincrement())
+  nomineeName         String?
+  nomineeIdNo         String?
+  nomineeRelationship String?
+  nomineeAddress      String?
+  nomineeTelNo        String?
+  member              Member  @relation(fields: [memberId], references: [id])
+  memberId            String  @unique
 }
 
 model Payment {
-  id        Int    @id @default(autoincrement())
-  receiptNo String
-  amount    Float
-  member    Member @relation(fields: [memberId], references: [id])
-  memberId  Int
+  id        Int     @id @default(autoincrement())
+  receiptNo String?
+  amount    Float?
+  member    Member  @relation(fields: [memberId], references: [id])
+  memberId  String
 }
 
 model EntranceFee {
-  id               Int    @id @default(autoincrement())
-  monthlyDeduction Float  @default(0)
-  alreadyPaid      Float  @default(0)
-  expected         Float  @default(0)
-  member           Member @relation(fields: [memberId], references: [id])
-  memberId         Int    @unique
+  id                       Int    @id @default(autoincrement())
+  entranceMonthlyDeduction Float  @default(0)
+  entranceAlreadyPaid      Float  @default(0)
+  entranceExpected         Float  @default(0)
+  member                   Member @relation(fields: [memberId], references: [id])
+  memberId                 String @unique
 }
 
 model MonthlyContribution {
-  id          Int    @id @default(autoincrement())
-  normal      Float  @default(0)
-  override    Float  @default(0)
-  overrideBal Float  @default(0)
-  member      Member @relation(fields: [memberId], references: [id])
-  memberId    Int    @unique
+  id                 Int    @id @default(autoincrement())
+  monthlyNormal      Float  @default(0)
+  monthlyOverride    Float  @default(0)
+  monthlyOverrideBal Float  @default(0)
+  member             Member @relation(fields: [memberId], references: [id])
+  memberId           String @unique
 }
 
 model NewPlantShares {
-  id               Int     @id @default(autoincrement())
-  monthlyDeduction Float   @default(0)
-  alreadyPaid      Float   @default(0)
-  expected         Float   @default(0)
-  certificateNo    String?
-  member           Member  @relation(fields: [memberId], references: [id])
-  memberId         Int     @unique
+  id                       Int     @id @default(autoincrement())
+  newPlantMonthlyDeduction Float   @default(0)
+  newPlantAlreadyPaid      Float   @default(0)
+  newPlantExpected         Float   @default(0)
+  newPlantCertificateNo    String?
+  member                   Member  @relation(fields: [memberId], references: [id])
+  memberId                 String  @unique
 }

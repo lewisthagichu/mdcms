@@ -31,13 +31,14 @@ const initiaPost: Prisma.MemberCreateInput[] = [
     statusDate: new Date('2023-01-01'),
     proposers: 'Jane Smith, Mike Johnson',
     comments: 'Reliable member',
+    sharesPaid: 1000,
     nominee: {
       create: {
-        name: 'Jane Doe',
-        idNo: '87654321',
-        relationship: 'Spouse',
-        address: '123 Main St, Nairobi',
-        telNo: '+254711111111',
+        nomineeName: 'Jane Doe',
+        nomineeIdNo: '87654321',
+        nomineeRelationship: 'Spouse',
+        nomineeAddress: '123 Main St, Nairobi',
+        nomineeTelNo: '+254711111111',
       },
     },
     payments: {
@@ -48,24 +49,24 @@ const initiaPost: Prisma.MemberCreateInput[] = [
     },
     entranceFee: {
       create: {
-        monthlyDeduction: 100,
-        alreadyPaid: 300,
-        expected: 1000,
+        entranceMonthlyDeduction: 100,
+        entranceAlreadyPaid: 300,
+        entranceExpected: 1000,
       },
     },
     monthlyContribution: {
       create: {
-        normal: 500,
-        override: 0,
-        overrideBal: 0,
+        monthlyNormal: 500,
+        monthlyOverride: 0,
+        monthlyOverrideBal: 0,
       },
     },
     newPlantShares: {
       create: {
-        monthlyDeduction: 200,
-        alreadyPaid: 600,
-        expected: 2000,
-        certificateNo: 'NPS001',
+        newPlantMonthlyDeduction: 200,
+        newPlantAlreadyPaid: 600,
+        newPlantExpected: 2000,
+        newPlantCertificateNo: 'NPS001',
       },
     },
   },

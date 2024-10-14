@@ -25,7 +25,7 @@ export const NomineeSchema = z.object({
 
 export const PaymentSchema = z.object({
   receiptNo: z.string(),
-  amount: z.number().nonnegative(),
+  amount: z.number().nonnegative().optional(),
 });
 
 export const EntranceFeeSchema = z.object({
@@ -136,7 +136,15 @@ export const MemberSchema = z.object({
 
   proposers: z.string().optional(),
   comments: z.string().optional(),
-
+  sharesPaid: z
+    .string()
+    .transform((val) => {
+      const number = parseInt(val, 10);
+      if (isNaN(number) || number < 0)
+        throw new Error('Expected a non-negative integer');
+      return number;
+    })
+    .optional(),
   nominee: NomineeSchema.optional(),
   payments: z.array(PaymentSchema).optional(),
   entranceFee: EntranceFeeSchema.optional(),
@@ -175,6 +183,7 @@ export type TMember = {
   statusDate: Date | null;
   proposers: string | null;
   comments: string | null;
+  sharesPaid: number | null;
 };
 
 export type TMemberSchema = z.infer<typeof MemberSchema>;
