@@ -43,53 +43,42 @@ export async function createMember(
   }
 }
 
-export async function getMember(id: string) {
+export async function updateMember(
+  prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
   try {
-    const member = await prisma.member.findUnique({
+    const formDataObj = Object.fromEntries(formData);
+    const validatedData = validateData(formDataObj);
+    const id = formData.get('id') as string;
+    console.log(id);
+
+    const member = await prisma.member.update({
       where: { id },
-      include: {
-        nominee: true,
-        payments: true,
-        entranceFee: true,
-        monthlyContribution: true,
-        newPlantShares: true,
+      data: {
+        ...validatedData,
+        nominee: { update: validatedData.nominee },
+        payments: {
+          deleteMany: {},
+          create: validatedData.payments,
+        },
+        entranceFee: { update: validatedData.entranceFee },
+        monthlyContribution: { update: validatedData.monthlyContribution },
+        newPlantShares: { update: validatedData.newPlantShares },
       },
     });
-    if (!member) {
-      return { success: false, error: 'Member not found' };
-    }
-    return { success: true, data: member };
+    revalidatePath('/');
+    return { message: 'success' };
   } catch (error) {
-    return { success: false, error: 'An unexpected error occurred' };
+    console.log(error);
+    if (error instanceof z.ZodError) {
+      const zodError = error as z.ZodError;
+      const errorMap = zodError.flatten().fieldErrors;
+      return {
+        message: 'Validation failed',
+        errors: JSON.stringify(errorMap),
+      };
+    }
+    return { message: 'An unexpected error occurred', errors: 'Server error' };
   }
 }
-
-// export async function updateMember(
-//   id: string,
-//   data: z.infer<typeof MemberSchema>
-// ) {
-//   try {
-//     const validatedData = MemberSchema.parse(data);
-//     const member = await prisma.member.update({
-//       where: { id },
-//       data: {
-//         ...validatedData,
-//         nominee: { update: validatedData.nominee },
-//         payments: {
-//           deleteMany: {},
-//           create: validatedData.payments,
-//         },
-//         entranceFee: { update: validatedData.entranceFee },
-//         monthlyContribution: { update: validatedData.monthlyContribution },
-//         newPlantShares: { update: validatedData.newPlantShares },
-//       },
-//     });
-//     revalidatePath('/');
-//     return { success: true, data: member };
-//   } catch (error) {
-//     if (error instanceof z.ZodError) {
-//       return { success: false, error: error.errors };
-//     }
-//     return { success: false, error: 'An unexpected error occurred' };
-//   }
-// }
