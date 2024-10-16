@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { TMember } from '@/lib/types';
 import { useRouter } from 'next/navigation';
 
@@ -12,8 +12,6 @@ export default function Home({ initialMembers }: HomeProps) {
   const router = useRouter();
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [members, setMembers] = useState(initialMembers);
-
-  useEffect(() => {}, [members]);
 
   const handleDelete = async (memberId: string | null) => {
     try {
