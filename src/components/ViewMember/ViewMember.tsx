@@ -68,10 +68,11 @@ const initialFormData = {
 };
 
 export default function ViewMemberForm() {
-  const router = useRouter();
+  const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState(initialFormData);
 
+  const router = useRouter();
   const { id } = useParams();
 
   useEffect(() => {
@@ -91,6 +92,9 @@ export default function ViewMemberForm() {
             statusDate: formatDateToYyyyMmDd(member.statusDate),
             balance: updateBalance(member),
           }));
+        } else {
+          setError(true);
+          throw new Error('Failed to fetch member data');
         }
       } catch (error) {
         console.error('Error fetching member: ', error);
@@ -119,6 +123,10 @@ export default function ViewMemberForm() {
       router.push('/');
     }
   };
+
+  if (error) {
+    return <p>Member not found</p>;
+  }
 
   return loading ? (
     <Spinner loading />
