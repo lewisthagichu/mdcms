@@ -90,7 +90,7 @@ export default function Home({ initialMembers }: HomeProps) {
                     }`}
                   >
                     <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                      {member.id}
+                      {member.membershipNo}
                     </td>
                     <td className="py-4 px-6 text-sm font-medium text-gray-500 whitespace-nowrap dark:text-white">
                       {member.name}
