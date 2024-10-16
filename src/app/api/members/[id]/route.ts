@@ -24,6 +24,12 @@ export const GET = async (
       },
     });
 
+    if (!member) {
+      return new Response(JSON.stringify({ message: 'Member not found' }), {
+        status: 404,
+      });
+    }
+
     revalidatePath('/');
     return new Response(JSON.stringify({ member }), {
       status: 200,
@@ -60,14 +66,17 @@ export const DELETE = async (
       },
     });
 
-    if (member) {
-      await prisma.nominee.deleteMany({ where: { memberId: id } });
-      await prisma.payment.deleteMany({ where: { memberId: id } });
-      await prisma.entranceFee.delete({ where: { memberId: id } });
-      await prisma.monthlyContribution.delete({ where: { memberId: id } });
-      await prisma.newPlantShares.delete({ where: { memberId: id } });
+    if (!member) {
+      return new Response(JSON.stringify({ message: 'Member not found' }), {
+        status: 404,
+      });
     }
 
+    await prisma.nominee.deleteMany({ where: { memberId: id } });
+    await prisma.payment.deleteMany({ where: { memberId: id } });
+    await prisma.entranceFee.delete({ where: { memberId: id } });
+    await prisma.monthlyContribution.delete({ where: { memberId: id } });
+    await prisma.newPlantShares.delete({ where: { memberId: id } });
     await prisma.member.delete({ where: { id } });
 
     revalidatePath('/');
